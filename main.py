@@ -1,6 +1,10 @@
 import time
+import map
 from map import GridMap
 from algoritm import plan_path
+import random
+
+r=random.randint(1, 10)
 
 def print_grid(grid_map, current_pos, path, target):
     """A rács kirajzolása"""
@@ -40,7 +44,7 @@ def main():
         current_pos = pos
         print(f"\nLépés {step}: Jelenlegi pozíció: {current_pos}")
         
-        if step == 3:
+        if step == r:
             dynamic_obstacle = current_path[step + 1]  # A 2 lépéssel előrébb lévő pontra teszünk akadályt
             print(f"\n[RIASZTÁS - CV MODUL] Új akadály észlelve a koordinátán: {dynamic_obstacle}!")
             
