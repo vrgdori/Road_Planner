@@ -30,8 +30,6 @@ def main():
     grid = GridMap()
     current_pos = map.START_POS
     goal_pos = map.GOAL_POS
-
-    print("--- 2. PROJEKT: DINAMIKUS A* ÚTVONALTERVEZŐ ---")
     
     # 1. Elsődleges útvonal kiszámítása
     current_path = plan_path(grid, current_pos, goal_pos)
