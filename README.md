@@ -30,10 +30,7 @@ Felelős az útvonal kiszámításáért.
         -   g_score szótárban tárolja az indítástól mért tényleges költséget.Cél elérésekor lentről felfelé rekonstruálja és megfordítva adja vissza a pontok listáját ([(0,0), (1,0), ...]).
     
 ## Logikai folyamatok
-    1.  Kezdeti útvonal generálása plan_path-szal.
-    2.  Léptetés a pontokon ciklussal.
-    3.  Amikor eléri a véletlenszerűen generált r lépésszámot, a current_path[step + 1] pozícióra egy új dinamikus akadályt regisztrál (grid.add_obstacle).
-    4.  Megszakítja a haladást, és azonnal meghívja a plan_path(grid, current_pos, goal_pos)-t a megmaradt útra.
+    ![Logikai folyamatok](logic.png)
 ## Elfogadási tesztek
     1.  Dinamikus Ujrarajzolas Teszt: Ha az útvonal N+1-edik vagy N+2-edik pontjára akadály kerül, a drón nem ütközhet le, hanem a plan_path megkerülő útvonalat ad vissza a jelenlegi pozícióból.4-Irányú Mozgáskorlát 
     2.  Az algorithmus nem generálhat átlós mozgást.
