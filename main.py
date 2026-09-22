@@ -27,12 +27,15 @@ def print_grid(grid_map, current_pos, path, target):
     print("=" * 25)
 
 def main():
-    grid = GridMap()
-    current_pos = map.START_POS
-    goal_pos = map.GOAL_POS
+    grid_height = int(input("Kérlek, add meg a pálya magasságát: "))
+    grid_width = int(input("Kérlek, add meg a pálya szélességét: "))
+    grid = GridMap(grid_height,grid_width)
+    current_pos = (0,0)
+    goal_pos = (grid_height-1,grid_width-1)
     
-    # 1. Elsődleges útvonal kiszámítása
     current_path = plan_path(grid, current_pos, goal_pos)
+    r=random.randint(1, len(current_path))
+
     print(f"Kezdeti útvonal kiszámítva ({len(current_path)} lépés): {current_path}")
     print_grid(grid, current_pos, current_path, goal_pos)
 
@@ -42,19 +45,21 @@ def main():
         current_pos = pos
         print(f"\nLépés {step}: Jelenlegi pozíció: {current_pos}")
         
-        if step == r:
-            dynamic_obstacle = current_path[step + 1]  # A 2 lépéssel előrébb lévő pontra teszünk akadályt
-            print(f"\n[RIASZTÁS - CV MODUL] Új akadály észlelve a koordinátán: {dynamic_obstacle}!")
+        if step == r :
+            dynamic_obstacle = current_path[step + 1]  
+            print(f"\nÚj akadály észlelve a koordinátán: {dynamic_obstacle}!")
             
             grid.add_obstacle(dynamic_obstacle)
             
-            print("Útvonal valós idejű újratervezése...")
+            print("Útvonal újratervezése...")
             new_path = plan_path(grid, current_pos, goal_pos)
             
-            if new_path:
+            if new_path and step<len(current_path):
                 print(f"Sikeres újratervezés! Új útvonal: {new_path}")
                 print_grid(grid, current_pos, new_path, goal_pos)
-                break
+                r=r+random.randint(1, 5)
+                if r>= (len(current_path)-5):
+                    break
             else:
                 print("HIBA: Nincs lehetséges útvonal a célhoz!")
                 break

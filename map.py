@@ -1,16 +1,10 @@
-MAP_WIDTH = 10
-MAP_HEIGHT = 10
-
-START_POS = (0, 0)
-GOAL_POS = (9, 9)
-
 INITIAL_OBSTACLES = [
     (2, 0), (3, 3), (5, 4),
     (6, 5), (6, 9), (9, 7)
 ]
 
 class GridMap:
-    def __init__(self, width=MAP_WIDTH, height=MAP_HEIGHT):
+    def __init__(self, width, height):
         self.width = width
         self.height = height
         self.obstacles = set(INITIAL_OBSTACLES)
