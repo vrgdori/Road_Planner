@@ -20,11 +20,11 @@ A előkészíti a szükséges inputokat a számításokhoz.
         -   is_valid(pos) -> bool: Igazat ad vissza, ha a pos(x, y) a rács határain belül van és nem szerepel az obstacles halmazban.
         -   add_obstacle(pos) -> bool: Dinamikusan hozzáad egy új akadályt a rácshoz, ha az érvényes koordináta.
         -   get_neighbors(pos) -> list: Visszaadja a 4-irányú (jobbra, balra, fel, le) érvényes szomszédos mezőket.
-### algorithm
+### Algorithm
 Felelős az útvonal kiszámításáért.
 
     -   Metódusok:
-        -   heuristic(a, b) -> int: Kiszámítja a Manhattan-távolságot két pont között 
+        -   heuristic(a, b) -> int: Kiszámítja a Manhattan-távolságot két pont között h(n) = |x1 - x2| + |y1 - y2|
         -   plan_path(grid_map, start, goal) -> list[tuple] | None: Ellenőrzi a start és goal érvényességét.A prioritásos sort (open_set) inicializálja tuple elemekkel: (f_score, position).
         -   came_from szótárral követi nyomon a szülői csomópontokat a visszakövetéshez (path reconstruction).
         -   g_score szótárban tárolja az indítástól mért tényleges költséget.Cél elérésekor lentről felfelé rekonstruálja és megfordítva adja vissza a pontok listáját ([(0,0), (1,0), ...]).
