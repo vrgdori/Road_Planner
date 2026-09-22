@@ -24,7 +24,7 @@ A előkészíti a szükséges inputokat a számításokhoz.
 Felelős az útvonal kiszámításáért.
 
     -   Metódusok:
-        -   heuristic(a, b) -> int: Kiszámítja a Manhattan-távolságot két pont között
+        -   heuristic(a, b) -> int: Kiszámítja a Manhattan-távolságot két pont között 
         -   plan_path(grid_map, start, goal) -> list[tuple] | None: Ellenőrzi a start és goal érvényességét.A prioritásos sort (open_set) inicializálja tuple elemekkel: (f_score, position).
         -   came_from szótárral követi nyomon a szülői csomópontokat a visszakövetéshez (path reconstruction).
         -   g_score szótárban tárolja az indítástól mért tényleges költséget.Cél elérésekor lentről felfelé rekonstruálja és megfordítva adja vissza a pontok listáját ([(0,0), (1,0), ...]).
@@ -35,8 +35,8 @@ Felelős az útvonal kiszámításáért.
     3.  Amikor eléri a véletlenszerűen generált r lépésszámot, a current_path[step + 1] pozícióra egy új dinamikus akadályt regisztrál (grid.add_obstacle).
     4.  Megszakítja a haladást, és azonnal meghívja a plan_path(grid, current_pos, goal_pos)-t a megmaradt útra.
 ## Elfogadási tesztek
-    1.  Dinamikus Ujrarajzolas Teszt: Ha az útvonal $N+1$-edik vagy $N+2$-edik pontjára akadály kerül, a drón nem ütközhet le, hanem a plan_path megkerülő útvonalat ad vissza a jelenlegi pozícióból.4-Irányú Mozgáskorlát 
-    2.  Az algorithmus nem generálhat átlós mozgást (kizárólag $(x\pm1, y)$ vagy $(x, y\pm1)$ lépéseket).Érvénytelenség/Elzárási 
-    3.  Amennyiben a dinamikus akadály teljesen elzárja a célt, a plan_path értéke None kell legyen, és a main()-nek hibaüzenetet kell dobnia összeomlás helyett.
+    1.  Dinamikus Ujrarajzolas Teszt: Ha az útvonal N+1-edik vagy N+2-edik pontjára akadály kerül, a drón nem ütközhet le, hanem a plan_path megkerülő útvonalat ad vissza a jelenlegi pozícióból.4-Irányú Mozgáskorlát 
+    2.  Az algorithmus nem generálhat átlós mozgást.
+    3.  Érvénytelenség/Elzárási: Amennyiben a dinamikus akadály teljesen elzárja a célt, a plan_path értéke None kell legyen, és a main()-nek hibaüzenetet kell dobnia összeomlás helyett.
 ## Eredmény
 ![result](result.PNG)
