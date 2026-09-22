@@ -1,28 +1,26 @@
 ﻿# Road_Planner
 ## Cél
-A modul felelős a navigációért egy 10 x 10-es rácshálóban. A rendszer dinamikusan kezeli az útvonaltervezést A* keresési algoritmussal, és valós időben reagál az észlelt új akadályokra.
+A modul felelős a navigációért egy a felhasználó által megadott méretű rácshálóban. A rendszer dinamikusan kezeli az útvonaltervezést A* keresési algorithmussal, és valós időben reagál az észlelt új akadályokra.
 ## Architectúra
 
 ![Architektúra](/architectura.PNG)
 
 ## Főbb komponensek
-    -   Environment Model (map.py): Karbantartja a 10 x 10-es rácsot, kezeli az intervallum-ellenőrzéseket és tárolja az aktuális dinamikus akadályhalmazt.
-    -   Pathfinder Engine (algoritm.py): Megvalósítja az A* keresőt Manhattan-heurisztikával és heapq prioritásos sor alkalmazásával a garantáltan legrövidebb útvonal kiszámításához.
+    -   Environment Model (map.py): Karbantartja a rácsot, kezeli az intervallum-ellenőrzéseket és tárolja az aktuális dinamikus akadályhalmazt.
+    -   Pathfinder Engine (algorithm.py): Megvalósítja az A* keresőt Manhattan-heurisztikával és heapq prioritásos sor alkalmazásával a garantáltan legrövidebb útvonal kiszámításához.
     -   Navigation Controller (main.py): Szimulálja a eszköz mozgását a kiszámított útvonalon. Akadály észlelésekor leállítja a végrehajtást, frissíti a térképet, és azonnal futtat egy újratervezést a jelenlegi pozícióból a cél felé.
 ## Osztályok, metódusok
 ### Map
 A előkészíti a szükséges inputokat a számításokhoz.
 
     -   Attributumok:
-        -   MAP_WIDTH = 10, MAP_HEIGHT = 10: A rács dimenziói.
-        -   START_POS = (0, 0), GOAL_POS = (9, 9): Kezdő- és célkoordináták.
         -   INITIAL_OBSTACLES: Kezdeti akadályok listája tuple-ként ((2, 0), (3, 3), stb.).
     -   Metódusok:
         -   __init__(width, height): Inicializálja a rács méreteit és felépíti az obstacles set adatszerkezetet a keresésekhez.
         -   is_valid(pos) -> bool: Igazat ad vissza, ha a pos(x, y) a rács határain belül van és nem szerepel az obstacles halmazban.
         -   add_obstacle(pos) -> bool: Dinamikusan hozzáad egy új akadályt a rácshoz, ha az érvényes koordináta.
         -   get_neighbors(pos) -> list: Visszaadja a 4-irányú (jobbra, balra, fel, le) érvényes szomszédos mezőket.
-### Algoritm
+### algorithm
 Felelős az útvonal kiszámításáért.
 
     -   Metódusok:
@@ -38,7 +36,7 @@ Felelős az útvonal kiszámításáért.
     4.  Megszakítja a haladást, és azonnal meghívja a plan_path(grid, current_pos, goal_pos)-t a megmaradt útra.
 ## Elfogadási tesztek
     1.  Dinamikus Ujrarajzolas Teszt: Ha az útvonal $N+1$-edik vagy $N+2$-edik pontjára akadály kerül, a drón nem ütközhet le, hanem a plan_path megkerülő útvonalat ad vissza a jelenlegi pozícióból.4-Irányú Mozgáskorlát 
-    2.  Az algoritmus nem generálhat átlós mozgást (kizárólag $(x\pm1, y)$ vagy $(x, y\pm1)$ lépéseket).Érvénytelenség/Elzárási 
+    2.  Az algorithmus nem generálhat átlós mozgást (kizárólag $(x\pm1, y)$ vagy $(x, y\pm1)$ lépéseket).Érvénytelenség/Elzárási 
     3.  Amennyiben a dinamikus akadály teljesen elzárja a célt, a plan_path értéke None kell legyen, és a main()-nek hibaüzenetet kell dobnia összeomlás helyett.
 ## Eredmény
 ![result](result.PNG)

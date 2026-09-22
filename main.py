@@ -1,7 +1,6 @@
 import time
-import map
 from map import GridMap
-from algoritm import plan_path
+from algorithm import plan_path
 import random
 
 r=random.randint(1, 10)
@@ -47,7 +46,7 @@ def main():
         
         if step == r :
             dynamic_obstacle = current_path[step + 1]  
-            print(f"\nÚj akadály észlelve a koordinátán: {dynamic_obstacle}!")
+            print(f"\nÚj akadály észlelve a pályán: {dynamic_obstacle}!")
             
             grid.add_obstacle(dynamic_obstacle)
             
