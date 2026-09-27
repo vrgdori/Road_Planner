@@ -3,7 +3,7 @@
 A modul felelős a navigációért egy a felhasználó által megadott méretű rácshálóban. A rendszer dinamikusan kezeli az útvonaltervezést A* keresési algorithmussal, és valós időben reagál az észlelt új akadályokra.
 ## Architectúra
 
-![Architektúra](/architectura.PNG)
+![Architektúra](/archi.jpg)
 
 ## Főbb komponensek
     -   Environment Model (map.py): Karbantartja a rácsot, kezeli az intervallum-ellenőrzéseket és tárolja az aktuális dinamikus akadályhalmazt.
@@ -29,8 +29,6 @@ Felelős az útvonal kiszámításáért.
         -   came_from szótárral követi nyomon a szülői csomópontokat a visszakövetéshez (path reconstruction).
         -   g_score szótárban tárolja az indítástól mért tényleges költséget.Cél elérésekor lentről felfelé rekonstruálja és megfordítva adja vissza a pontok listáját ([(0,0), (1,0), ...]).
     
-## Logikai folyamatok
-![Logikai folyamatok](logic.PNG)
 ## Elfogadási tesztek
     1.  Dinamikus Ujrarajzolas Teszt: Ha az útvonal N+1-edik vagy N+2-edik pontjára akadály kerül, a drón nem ütközhet le, hanem a plan_path megkerülő útvonalat ad vissza a jelenlegi pozícióból.4-Irányú Mozgáskorlát 
     2.  Az algorithmus nem generálhat átlós mozgást.
