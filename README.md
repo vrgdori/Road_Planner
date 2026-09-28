@@ -37,8 +37,8 @@ Python 3.x telepítése szükséges (nincs szükség külső könyvtárak telep�
 
 ### 1. Repository klónozása
 ```bash
-git clone https://github.com/felhasznalonev/dynamic-pathfinding-drone.git
-cd dynamic-pathfinding-drone
+git clone https://github.com/vrgdori/Road_Planner.git
+cd Road_Planner
 ```
 
 ### 2. A script futtatása
