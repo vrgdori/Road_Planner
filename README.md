@@ -1,37 +1,59 @@
 ﻿# Road_Planner
 ## Cél
-A modul felelős a navigációért egy a felhasználó által megadott méretű rácshálóban. A rendszer dinamikusan kezeli az útvonaltervezést A* keresési algorithmussal, és valós időben reagál az észlelt új akadályokra.
-## Architectúra
+>Dinamikus útvonaltervező és re-planning szimuláció A* (A-Star) keresőalgoritmussal Pythonban, valós idejű akadályészleléssel és rácsalapú vizualizációval.
+
+## Projekt Áttekintés
+A projekt egy önvezető drón / robot dinamikus navigációját szimulálja egy testreszabható méretű 2D-s rácson. A szimuláció főbb funkciói:
+
+- A Útvonaltervezés:* Legrövidebb út megtalálása Manhattan-távolság heurisztikával.
+- Dinamikus Akadálykezelés: Mozgás közben véletlenszerűen megjelenő új akadályok szimulációja.
+- Valós idejű Újratervezés (Re-planning): Ha az eredeti útvonal blokkolttá válik, a rendszer automatikusan újratervezi az utat a jelenlegi pozícióból a cél felé.
+- Konzolos Vizualizáció: Lépésről lépésre követhető navigáció és térképrajzolás.
+
+## Tech Stack
+
+* **Nyelv:** Python
+* **Adatstruktúrák:** `heapq` (Min-Heap / Elsőbbségi sor a hatékony A* kereséshez)
+* **Modulok:** `time`, `random`
+
+## High-Level Design (HLD)
+Az alábbi diagram a rendszer architekturális felépítését és a dinamikus útvonaltervezési ciklust mutatja be:
 
 ![Architektúra](/archi.jpg)
 
-## Főbb komponensek
-    -   Environment Model (map.py): Karbantartja a rácsot, kezeli az intervallum-ellenőrzéseket és tárolja az aktuális dinamikus akadályhalmazt.
-    -   Pathfinder Engine (algorithm.py): Megvalósítja az A* keresőt Manhattan-heurisztikával és heapq prioritásos sor alkalmazásával a garantáltan legrövidebb útvonal kiszámításához.
-    -   Navigation Controller (main.py): Szimulálja a eszköz mozgását a kiszámított útvonalon. Akadály észlelésekor leállítja a végrehajtást, frissíti a térképet, és azonnal futtat egy újratervezést a jelenlegi pozícióból a cél felé.
-## Osztályok, metódusok
-### Map
-A előkészíti a szükséges inputokat a számításokhoz.
+## Működési Logika és Algoritmus
+1. A* Keresőalgoritmus 
+Az algoritmus az f(n) = g(n) + h(n) képlet alapján priorizálja a csomópontokat:
+g(n): A kezdőponttól megtett tényleges lépések száma.
+h(n): Manhattan-távolság heurisztika a célpontig:
+heuristic(a, b) = | $a_x$ - $b_x$ | + | $a_y$ - $b_y$ |
+2. Térképkezelés 
+A GridMap osztály felel a pálya határainak ellenőrzéséért, a statikus és dinamikus akadályok tárolásáért (set adatstruktúrában a O(1) idejű kereséshez), valamint az érvényes szomszédos mezők lekérdezéséért.
 
-    -   Attributumok:
-        -   INITIAL_OBSTACLES: Kezdeti akadályok listája tuple-ként ((2, 0), (3, 3), stb.).
-    -   Metódusok:
-        -   __init__(width, height): Inicializálja a rács méreteit és felépíti az obstacles set adatszerkezetet a keresésekhez.
-        -   is_valid(pos) -> bool: Igazat ad vissza, ha a pos(x, y) a rács határain belül van és nem szerepel az obstacles halmazban.
-        -   add_obstacle(pos) -> bool: Dinamikusan hozzáad egy új akadályt a rácshoz, ha az érvényes koordináta.
-        -   get_neighbors(pos) -> list: Visszaadja a 4-irányú (jobbra, balra, fel, le) érvényes szomszédos mezőket.
-### Algorithm
-Felelős az útvonal kiszámításáért.
+## Telepítés és Futtatás
 
-    -   Metódusok:
-        -   heuristic(a, b) -> int: Kiszámítja a Manhattan-távolságot két pont között h(n) = |x1 - x2| + |y1 - y2|
-        -   plan_path(grid_map, start, goal) -> list[tuple] | None: Ellenőrzi a start és goal érvényességét.A prioritásos sort (open_set) inicializálja tuple elemekkel: (f_score, position).
-        -   came_from szótárral követi nyomon a szülői csomópontokat a visszakövetéshez (path reconstruction).
-        -   g_score szótárban tárolja az indítástól mért tényleges költséget.Cél elérésekor lentről felfelé rekonstruálja és megfordítva adja vissza a pontok listáját ([(0,0), (1,0), ...]).
-    
-## Elfogadási tesztek
-    1.  Dinamikus Ujrarajzolas Teszt: Ha az útvonal N+1-edik vagy N+2-edik pontjára akadály kerül, a drón nem ütközhet le, hanem a plan_path megkerülő útvonalat ad vissza a jelenlegi pozícióból.4-Irányú Mozgáskorlát 
-    2.  Az algorithmus nem generálhat átlós mozgást.
-    3.  Érvénytelenség/Elzárási: Amennyiben a dinamikus akadály teljesen elzárja a célt, a plan_path értéke None kell legyen, és a main()-nek hibaüzenetet kell dobnia összeomlás helyett.
+### Előfeltételek
+Python 3.x telepítése szükséges (nincs szükség külső könyvtárak telepítésére, csak a beépített modulokat használja).
+
+### 1. Repository klónozása
+```bash
+git clone https://github.com/felhasznalonev/dynamic-pathfinding-drone.git
+cd dynamic-pathfinding-drone
+```
+
+### 2. A script futtatása
+```bash
+python main.py
+```
+### 3. Használat
+A program indítás után bekéri a pálya méreteit (magasság és szélesség), majd automatikusan elindítja a szimulációt a (0, 0) kezdőpontból a jobb alsó sarok  felé.
+
+## Mérnöki Döntések és Kihívások
+- Rács-koordináták inicializációs hibája 
+    - Probléma: A `GridMap` inicializálása felcserélt paraméterekkel történt (`GridMap(grid_height, grid_width)` a várt `width`, `height` helyett), ami nem-négyzetes pályák esetén indexelési hibákat vagy érvénytelen lépéseket okozott.
+    - Megoldás: A koordinátarendszer konzisztens kezelése a (x, y) tengelyek mentén.
+- Hatékony Akadálykeresés: Az akadályok tárolására lista helyett Python set-et használ a kód, így a mezők érvényességének ellenőrzése (`is_valid`) O(1) időkomplexitással fut O(N) helyett.
+- Edge Case Kezelés dinamikus akadályoknál: Ha a megjelenő új akadály közvetlenül a drón előtti mezőt zárja le, a rendszer azonnal megállítja a mozgást, frissíti a térképet, és sikeresen elkerüli az ütközést az útvonal újraszámításával.
+
 ## Eredmény
 ![result](result.PNG)
